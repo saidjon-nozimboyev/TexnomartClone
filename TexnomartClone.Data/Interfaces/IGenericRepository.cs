@@ -1,6 +1,6 @@
 ﻿namespace TexnomartClone.Data.Interfaces;
 
-public interface IGenericInterface<T>
+public interface IGenericRepository<T>  
 {
     Task CreateAsync(T entity);
     Task UpdateAsync(T entity);

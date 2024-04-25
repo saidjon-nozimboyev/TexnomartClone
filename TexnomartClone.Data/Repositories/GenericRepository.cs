@@ -1,36 +1,37 @@
-﻿using TexnomartClone.Data.DbContexts;
+﻿using Microsoft.EntityFrameworkCore;
+using TexnomartClone.Data.DbContexts;
 using TexnomartClone.Data.Interfaces;
 using TexnomartClone.Domain.Entities;
 
 namespace TexnomartClone.Data.Repositories;
 
-public class GenericRepository<T>(AppDbContext dbContext) 
-    : IGenericInterface<T> where T : Base
+public class GenericRepository<T>(AppDbContext dbContext)
+    : IGenericRepository<T> where T : Base
 {
-    private readonly AppDbContext _dbContext = dbContext;   
+    protected readonly AppDbContext _dbContext = dbContext;
+    private readonly DbSet<T> _dbSet = dbContext.Set<T>();
 
-    public Task CreateAsync(T entity)
+    public async Task CreateAsync(T entity)
     {
-        throw new NotImplementedException();
+        await _dbSet.AddAsync(entity);
+        await _dbContext.SaveChangesAsync();
     }
 
-    public Task DeleteAsync(T entity)
+    public async Task DeleteAsync(T entity)
     {
-        throw new NotImplementedException();
+        _dbSet.Remove(entity);
+        await _dbContext.SaveChangesAsync();
     }
 
-    public Task<IEnumerable<T>> GetAllAsync()
-    {
-        throw new NotImplementedException();
-    }
+    public async Task<IEnumerable<T>> GetAllAsync()
+        => await _dbSet.ToListAsync();
 
-    public Task<T?> GetByIdAsync(int id)
-    {
-        throw new NotImplementedException();
-    }
+    public async Task<T?> GetByIdAsync(int id)
+        => await _dbSet.FirstOrDefaultAsync(x => x.Id == id);
 
-    public Task UpdateAsync(T entity)
+    public async Task UpdateAsync(T entity)
     {
-        throw new NotImplementedException();
+        _dbSet.Update(entity);
+        await _dbContext.SaveChangesAsync();
     }
 }

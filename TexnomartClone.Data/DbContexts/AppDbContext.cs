@@ -4,7 +4,7 @@ using TexnomartClone.Domain.Enums;
 
 namespace TexnomartClone.Data.DbContexts;
 
-public class AppDbContext : DbContext
+public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
     public DbSet<User> Users { get; set; }
     public DbSet<Category> Categories { get; set; }
