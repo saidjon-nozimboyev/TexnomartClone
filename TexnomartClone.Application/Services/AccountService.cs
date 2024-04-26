@@ -31,6 +31,9 @@ public class AccountService(IUnitOfWork unitOfWork,
         if (user is null)
             throw new StatusCodeException(HttpStatusCode.NotFound, "User with this email not found");
 
+        if (!user.IsVerified)
+            throw new StatusCodeException(HttpStatusCode.Unauthorized, "Unauthorized action!");
+
         if (user.Password != PasswordHasher.GetHash(login.Password))
             throw new StatusCodeException(HttpStatusCode.Conflict, "Password is incorrect");
 
@@ -49,6 +52,7 @@ public class AccountService(IUnitOfWork unitOfWork,
             throw new ValidationException(result.GetErrorMessages());
 
         entity.Password = PasswordHasher.GetHash(dto.Password);
+        await _unitOfWork.User.CreateAsync(entity);
 
         return true;
     }
