@@ -6,7 +6,7 @@ public class OrderDto : AddOrderDto
 {
     public int Id { get; set; }
 
-    public static implicit operator Order(OrderDto dto)
+    public static implicit operator OrderDto(Order dto)
     {
         return new OrderDto()
         {

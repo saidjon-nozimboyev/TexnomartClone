@@ -7,8 +7,4 @@ namespace TexnomartClone.Data.Repositories;
 public class OrderRepository(AppDbContext dbContext) 
     : GenericRepository<Order>(dbContext), IOrderRepository
 {
-    public Task<Order> GetOrderByDate(DateTime? date)
-    {
-        throw new NotImplementedException();
-    }
 }

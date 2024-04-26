@@ -1,5 +1,7 @@
-﻿using TexnomartClone.Data.DbContexts;
+﻿using Microsoft.EntityFrameworkCore;
+using TexnomartClone.Data.DbContexts;
 using TexnomartClone.Data.Interfaces;
+using TexnomartClone.Domain.Entities;
 using TexnomartClone.Domain.Enums;
 
 namespace TexnomartClone.Data.Repositories;
@@ -7,13 +9,16 @@ namespace TexnomartClone.Data.Repositories;
 public class ProductRepository(AppDbContext dbContext) 
     : GenericRepository<Product>(dbContext), IProductRepository
 {
-    public Task<IEnumerable<Product>> GetByCategoryAsync(string categoryName)
+    public async Task<IEnumerable<Product>> GetByCategoryAsync(string categoryName)
     {
-        throw new NotImplementedException();
+        var category = await _dbContext.Categories.FirstOrDefaultAsync(c => c.CategoryName == categoryName);
+
+        return await _dbContext.Products.Where(p => p.CategoryId == category!.Id).ToListAsync();
     }
 
-    public Task<Product> GetByPriceAsync(double price)
+    public async Task<Product?> GetByPriceAsync(double price)
     {
-        throw new NotImplementedException();
+        return await _dbContext.Products
+            .FirstOrDefaultAsync(p => p.Price == price);
     }
 }
