@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TexnomartClone.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class FiveHundredOne : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

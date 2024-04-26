@@ -12,8 +12,8 @@ using TexnomartClone.Data.DbContexts;
 namespace TexnomartClone.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240425030341_Init")]
-    partial class Init
+    [Migration("20240426185744_FiveHundredOne")]
+    partial class FiveHundredOne
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -1,6 +1,16 @@
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using System;
+using Serilog;
+using TexnomartClone.Application.Common.Validators;
+using TexnomartClone.Application.Interfaces;
+using TexnomartClone.Application.Services;
+using TexnomartClone.Configurations;
 using TexnomartClone.Data.DbContexts;
+using TexnomartClone.Data.Interfaces;
+using TexnomartClone.Data.Repositories;
+using TexnomartClone.Domain.Entities;
+using TexnomartClone.Domain.Enums;
+using TexnomartClone.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,11 +21,38 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddMemoryCache();
+//Serilog
+builder.Host.UseSerilog((hostingContext, loggerConfiguration) =>
+loggerConfiguration.ReadFrom.Configuration(hostingContext.Configuration));
+
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("LocalDb"));
     options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 });
+
+// Unit Of Work
+builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
+
+// Services
+builder.Services.AddTransient<IAccountService, AccountService>();
+builder.Services.AddTransient<IAuthManager, AuthManager>();
+builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<IOrderService, OrderService>();
+builder.Services.AddTransient<ICategoryService, CategoryService>();
+builder.Services.AddTransient<IProductService, ProductService>();
+builder.Services.AddTransient<IEmailService, EmailService>();
+
+// Configure
+builder.Services.ConfigureJwtAuthorize(builder.Configuration);
+builder.Services.ConfigureSwaggerAuthorize(builder.Configuration);
+
+//Validator
+builder.Services.AddScoped<IValidator<User>, UserValidator>();
+builder.Services.AddScoped<IValidator<Category>, CategoryValidator>();
+builder.Services.AddScoped<IValidator<Product>, ProductValidator>();
+builder.Services.AddScoped<IValidator<Order>,OrderValidator>();
 
 
 
@@ -30,7 +67,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
+
 app.UseAuthorization();
+
+app.UseMiddleware<ExceptionsHadle>();
 
 app.MapControllers();
 

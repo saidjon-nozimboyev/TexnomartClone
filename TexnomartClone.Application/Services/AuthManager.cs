@@ -10,7 +10,7 @@ namespace TexnomartClone.Application.Services;
 
 public class AuthManager(IConfiguration configuration) : IAuthManager
 {
-    private readonly IConfiguration _config = configuration;
+    private readonly IConfiguration _config = configuration.GetSection("Jwt");
 
     public string GenerateToken(User user)
     {

@@ -9,7 +9,7 @@ namespace TexnomartClone.Application.Services;
 
 public class EmailService(IConfiguration configuration) : IEmailService
 {
-    private readonly IConfiguration _config = configuration;
+    private readonly IConfiguration _config = configuration.GetSection("Email");
 
     public async Task SendMessageToEmailAsync(string to, string title, string body)
     {

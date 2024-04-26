@@ -6,8 +6,8 @@ namespace TexnomartClone.Application.Interfaces;
 
 public interface IProductService
 {
-    Task<Product> GetByPriceAsync(double price);
-    Task<IEnumerable<Product>> GetByCategoryAsync(string categoryName);
+    //Task<Product> GetByPriceAsync(double price);
+    //Task<IEnumerable<Product>> GetByCategoryAsync(string categoryName);
     Task CreateAsync(AddProductDto dto);
     Task UpdateAsync(ProductDto dto);
     Task DeleteAsync(int id);
