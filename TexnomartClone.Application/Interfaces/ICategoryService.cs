@@ -9,4 +9,5 @@ public interface ICategoryService
     Task DeleteAsync(int id);
     Task<CategoryDto?> GetByIdAsync(int id);
     Task<IEnumerable<CategoryDto>> GetAllAsync();
+    Task<IEnumerable<CategoryDto>> GetByNameAsync(string name);
 }

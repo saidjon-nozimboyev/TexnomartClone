@@ -10,10 +10,10 @@ using TexnomartClone.Domain.Entities;
 namespace TexnomartClone.Application.Services;
 
 public class CategoryService(IUnitOfWork unitOfWork,
-                             IValidator<Category> validator) 
+                             IValidator<Category> validator)
     : ICategoryService
 {
-    private readonly IUnitOfWork _unitOfWork = unitOfWork;  
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IValidator<Category> _validator = validator;
 
     public async Task CreateAsync(AddCategoryDto dto)
@@ -51,6 +51,15 @@ public class CategoryService(IUnitOfWork unitOfWork,
             throw new StatusCodeException(HttpStatusCode.NotFound, "Category with this is not found");
 
         return (CategoryDto)category;
+    }
+
+    public async Task<IEnumerable<CategoryDto>> GetByNameAsync(string name)
+    {
+        if (string.IsNullOrEmpty(name))
+            throw new StatusCodeException(HttpStatusCode.BadGateway, "Category can not be empty");
+        var categories = await _unitOfWork.Category.GetByNameAsync(name);
+
+        return categories.Select(x => (CategoryDto)x!).ToList();
     }
 
     public async Task UpdateAsync(CategoryDto dto)
