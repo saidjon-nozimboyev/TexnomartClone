@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TexnomartClone.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class FiveHundredOne : Migration
+    public partial class Final : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -77,6 +77,11 @@ namespace TexnomartClone.Data.Migrations
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
                 });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "Email", "FirstName", "Gender", "IsVerified", "LastName", "Password", "PhoneNumber", "Role" },
+                values: new object[] { 1, "saidjonnozimboyevv@gmail.com", "SuperAdmin", 1, true, "Boss", "6596443e7768f0c1ae055535783a3b6fcd3c2efb4fc0725336e31e087c4d10fc", "+998930469959", 1 });
         }
 
         /// <inheritdoc />

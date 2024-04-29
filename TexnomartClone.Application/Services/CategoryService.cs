@@ -19,7 +19,7 @@ public class CategoryService(IUnitOfWork unitOfWork,
     public async Task CreateAsync(AddCategoryDto dto)
     {
         var category = await _unitOfWork.Category.IsCategoryExistsAsync(dto.CategoryName);
-        if (!category)
+        if (category)
             throw new StatusCodeException(HttpStatusCode.AlreadyReported, "This category already exists!");
 
         var result = await _validator.ValidateAsync(dto);

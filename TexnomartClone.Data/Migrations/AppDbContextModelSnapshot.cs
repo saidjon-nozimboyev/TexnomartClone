@@ -105,6 +105,20 @@ namespace TexnomartClone.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Email = "saidjonnozimboyevv@gmail.com",
+                            FirstName = "SuperAdmin",
+                            Gender = 1,
+                            IsVerified = true,
+                            LastName = "Boss",
+                            Password = "6596443e7768f0c1ae055535783a3b6fcd3c2efb4fc0725336e31e087c4d10fc",
+                            PhoneNumber = "+998930469959",
+                            Role = 1
+                        });
                 });
 
             modelBuilder.Entity("TexnomartClone.Domain.Enums.Product", b =>

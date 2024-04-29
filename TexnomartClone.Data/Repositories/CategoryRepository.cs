@@ -19,7 +19,7 @@ public class CategoryRepository(AppDbContext dbContext)
 
     public async Task<bool> IsCategoryExistsAsync(string categoryName)
     {
-        var category = await _dbContext.Categories.FindAsync(categoryName);
+        var category = await _dbContext.Categories.FirstOrDefaultAsync(x => x.CategoryName == categoryName);
         return category != null;
     }
 }
