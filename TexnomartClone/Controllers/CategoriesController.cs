@@ -34,7 +34,6 @@ public class CategoriesController(ICategoryService categoryService) : Controller
     }
 
     [HttpGet]
-    // in case of copy it is written by Saidjon
     public async Task<IActionResult> GetAllAsync()
     {
         return Ok(await _categoryService.GetAllAsync());
